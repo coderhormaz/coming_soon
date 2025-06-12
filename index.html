@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0c0c0c;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 90vw;
+            margin: 0 auto;
+        }
+
+        .text {
+            font-size: clamp(2.5rem, 8vw, 7rem);
+            font-weight: 300;
+            letter-spacing: clamp(0.15em, 0.25em, 0.3em);
+            line-height: 1.2;
+            margin-bottom: clamp(1rem, 4vw, 2rem);
+            position: relative;
+            word-break: break-word;
+        }
+
+        .text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: letterReveal 0.8s ease-out forwards;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text span:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Sophisticated color palette */
+        .text span:nth-child(1) { color: #e8e8e8; animation-delay: 0s; }
+        .text span:nth-child(2) { color: #a8a8a8; animation-delay: 0.05s; }
+        .text span:nth-child(3) { color: #d4d4d4; animation-delay: 0.1s; }
+        .text span:nth-child(4) { color: #b8b8b8; animation-delay: 0.15s; }
+        .text span:nth-child(5) { color: #e0e0e0; animation-delay: 0.2s; }
+        .text span:nth-child(6) { color: #c4c4c4; animation-delay: 0.25s; }
+        .text span:nth-child(7) { color: #f0f0f0; animation-delay: 0.3s; }
+        .text span:nth-child(8) { color: #888888; animation-delay: 0.35s; }
+        .text span:nth-child(9) { color: #d8d8d8; animation-delay: 0.4s; }
+        .text span:nth-child(10) { color: #a0a0a0; animation-delay: 0.45s; }
+        .text span:nth-child(11) { color: #cccccc; animation-delay: 0.5s; }
+
+        @keyframes letterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .line {
+            width: clamp(30px, 8vw, 60px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #404040, transparent);
+            margin: 0 auto clamp(1rem, 3vw, 1.5rem);
+            opacity: 0;
+            animation: lineAppear 1s ease-out 0.8s forwards;
+        }
+
+        @keyframes lineAppear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .subtitle {
+            font-size: clamp(0.7rem, 2vw, 0.875rem);
+            font-weight: 400;
+            letter-spacing: clamp(0.2em, 0.3em, 0.3em);
+            color: #606060;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: subtitleAppear 1s ease-out 1.2s forwards;
+            max-width: 100%;
+        }
+
+        @keyframes subtitleAppear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Subtle ambient glow */
+        .ambient-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(300px, 80vw, 800px);
+            height: clamp(150px, 40vw, 400px);
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.015) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: breathe 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes breathe {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        /* Minimal cursor interaction */
+        .cursor-glow {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* Mobile First - Extra Small devices (phones, 575px and down) */
+        @media (max-width: 575px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .container {
+                max-width: 95vw;
+            }
+            
+            .text {
+                font-size: clamp(2rem, 10vw, 3rem);
+                letter-spacing: clamp(0.1em, 0.15em, 0.2em);
+                margin-bottom: 1rem;
+            }
+            
+            .text span {
+                transform: translateY(20px);
+            }
+            
+            .line {
+                width: 25px;
+                margin-bottom: 1rem;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.6rem, 3vw, 0.7rem);
+                letter-spacing: 0.15em;
+                line-height: 1.4;
+            }
+            
+            .ambient-glow {
+                width: 90vw;
+                height: 45vw;
+            }
+            
+            .cursor-glow {
+                display: none; /* Hide cursor glow on very small screens */
+            }
+        }
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (min-width: 576px) and (max-width: 767px) {
+            .text {
+                font-size: clamp(2.5rem, 9vw, 4rem);
+                letter-spacing: 0.05em;
+            }
+            
+            .line {
+                width: 35px;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+                letter-spacing: 0.2em;
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .text {
+                font-size: clamp(3rem, 8vw, 5rem);
+                letter-spacing: 0.08em;
+            }
+            
+            .line {
+                width: 45px;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.75rem, 2vw, 0.8rem);
+                letter-spacing: 0.25em;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .text {
+                font-size: clamp(4rem, 7vw, 6rem);
+            }
+        }
+
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .text {
+                font-size: clamp(5rem, 8vw, 7rem);
+            }
+        }
+
+        /* Landscape orientation specific styles */
+        @media (orientation: landscape) and (max-height: 500px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .text {
+                font-size: clamp(2rem, 6vh, 3.5rem);
+                margin-bottom: 0.5rem;
+            }
+            
+            .line {
+                margin-bottom: 0.5rem;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.6rem, 2vh, 0.75rem);
+            }
+        }
+
+        /* Portrait orientation specific styles for tablets */
+        @media (orientation: portrait) and (min-width: 768px) and (max-width: 1024px) {
+            .text {
+                font-size: clamp(3.5rem, 8vw, 5.5rem);
+            }
+        }
+
+        /* High DPI screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+            .grain {
+                opacity: 0.02; /* Reduce grain on high DPI screens */
+            }
+        }
+
+        /* Touch devices - disable hover effects and cursor glow */
+        @media (hover: none) {
+            .cursor-glow {
+                display: none;
+            }
+            
+            .text span:hover {
+                color: inherit !important;
+                transform: translateY(0) !important;
+            }
+        }
+
+        /* Devices that support hover */
+        @media (hover: hover) {
+            .text span:hover {
+                color: #ffffff !important;
+            }
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .text span {
+                animation-duration: 0.3s;
+            }
+            
+            .line {
+                animation-duration: 0.5s;
+            }
+            
+            .subtitle {
+                animation-duration: 0.5s;
+            }
+            
+            .ambient-glow {
+                animation: none;
+            }
+            
+            .cursor-glow {
+                transition: none;
+            }
+        }
+
+        /* Dark mode support (if system preference changes) */
+        @media (prefers-color-scheme: light) {
+            /* Keep dark theme even in light mode preference */
+            body {
+                background: #0c0c0c;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="ambient-glow"></div>
+    <div class="cursor-glow"></div>
+    
+    <div class="container">
+        <h1 class="text">
+            <span>C</span><span>O</span><span>M</span><span>I</span><span>N</span><span>G</span><span>&nbsp;</span><span>S</span><span>O</span><span>O</span><span>N</span>
+        </h1>
+        <div class="line"></div>
+        <p class="subtitle">Something great is coming</p>
+    </div>
+
+    <script>
+        class PremiumComingSoon {
+            constructor() {
+                this.cursorGlow = document.querySelector('.cursor-glow');
+                this.textElement = document.querySelector('.text');
+                this.initializeCursor();
+                this.initializeTextInteraction();
+            }
+
+            initializeCursor() {
+                let mouseX = 0;
+                let mouseY = 0;
+                let currentX = 0;
+                let currentY = 0;
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                const updateCursor = () => {
+                    currentX += (mouseX - currentX) * 0.1;
+                    currentY += (mouseY - currentY) * 0.1;
+                    
+                    if (this.cursorGlow) {
+                        this.cursorGlow.style.left = `${currentX - 10}px`;
+                        this.cursorGlow.style.top = `${currentY - 10}px`;
+                    }
+                    
+                    requestAnimationFrame(updateCursor);
+                };
+                
+                updateCursor();
+            }
+
+            initializeTextInteraction() {
+                if (!this.textElement) return;
+
+                const letters = this.textElement.querySelectorAll('span');
+                
+                letters.forEach((letter, index) => {
+                    letter.addEventListener('mouseenter', () => {
+                        // Subtle ripple effect on nearby letters
+                        letters.forEach((otherLetter, otherIndex) => {
+                            const distance = Math.abs(index - otherIndex);
+                            if (distance <= 2) {
+                                const delay = distance * 50;
+                                setTimeout(() => {
+                                    otherLetter.style.transform = 'translateY(-3px)';
+                                    setTimeout(() => {
+                                        otherLetter.style.transform = 'translateY(0)';
+                                    }, 200);
+                                }, delay);
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new PremiumComingSoon();
+        });
+
+        // Subtle parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            const ambientGlow = document.querySelector('.ambient-glow');
+            if (ambientGlow) {
+                ambientGlow.style.transform = `translate(${-50 + x * 2}%, ${-50 + y * 2}%)`;
+            }
+        });
+    </script>
+</body>
+</html>
